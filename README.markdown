@@ -19,8 +19,8 @@
 ## Clone and Install
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
-   cd wysa-sleep-api
+   git clone https://github.com/kishan-25/wysa-assignment.git
+   cd wysa-assignment
    ```
 
 2. **Install Dependencies**:
