@@ -32,11 +32,9 @@
 3. **Set Up Environment Variables**:
    Create a `.env` file in the root directory with the following:
    ```
-   MONGODB_URI=mongodb://localhost:27017/wysa
-   JWT_SECRET=your-secure-secret
-   FRONTEND_URL=http://localhost:3000
+   MONGODB_URI="make modifications"
+   JWT_SECRET="make modifications"
    PORT=5000
-   NODE_ENV=development
    ```
 
 4. **Run the Application**:
