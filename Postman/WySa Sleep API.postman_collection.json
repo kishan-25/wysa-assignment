@@ -1,0 +1,635 @@
+{
+	"info": {
+		"_postman_id": "7b10123e-a6c8-400f-afd6-15263ae42c7f",
+		"name": "WySa Sleep API",
+		"description": "Complete API collection for WySa Sleep application with authentication, assessment management, and comprehensive test cases",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39689165"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response has user data\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.message).to.equal(\"User created successfully\");",
+									"    pm.expect(response.user).to.have.property(\"id\");",
+									"    pm.expect(response.user.email).to.equal(\"testuser@example.com\");",
+									"    pm.expect(response.user.name).to.equal(\"Test User\");",
+									"    pm.expect(response.user.role).to.equal(\"USER\");",
+									"});",
+									"",
+									"pm.test(\"JWT cookie is set\", function () {",
+									"    const cookies = pm.cookies.getAll();",
+									"    pm.expect(cookies).to.have.length.greaterThan(0);",
+									"    pm.expect(cookies.some(cookie => cookie.key === \"jwt\")).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"Password123\",\n    \"name\": \"Test User\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has user data\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.message).to.equal(\"User logged in successfully\");",
+									"    pm.expect(response.user).to.have.property(\"id\");",
+									"    pm.expect(response.user.email).to.equal(\"testuser@example.com\");",
+									"});",
+									"",
+									"pm.test(\"JWT cookie is set\", function () {",
+									"    const cookies = pm.cookies.getAll();",
+									"    pm.expect(cookies).to.have.length.greaterThan(0);",
+									"    pm.expect(cookies.some(cookie => cookie.key === \"jwt\")).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"Password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response confirms authentication\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.message).to.equal(\"User authenticated successfully\");",
+									"    pm.expect(response.user).to.have.property(\"id\");",
+									"    pm.expect(response.user.email).to.equal(\"testuser@example.com\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response confirms logout\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.message).to.equal(\"User logged out successfully\");",
+									"});",
+									"",
+									"pm.test(\"JWT cookie is cleared\", function () {",
+									"    const cookies = pm.cookies.getAll();",
+									"    pm.expect(cookies.some(cookie => cookie.key === \"jwt\")).to.be.false;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assessment",
+			"item": [
+				{
+					"name": "Submit Assessment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response confirms assessment submission\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.message).to.equal(\"Assessment submitted successfully\");",
+									"    pm.expect(response.assessment).to.have.property(\"id\");",
+									"    pm.expect(response.assessment.goal).to.deep.equal([\"better sleep\", \"reduce stress\"]);",
+									"    pm.expect(response.assessment.sleepDuration).to.equal(8);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"goal\": [\"better sleep\", \"reduce stress\"],\n    \"struggleWeek\": \"Difficulty falling asleep\",\n    \"bedInTime\": \"23:00\",\n    \"bedOutTime\": \"07:00\",\n    \"sleepDuration\": 8\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/assessment/submit-assessment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"assessment",
+								"submit-assessment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Assessments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains assessments\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.success).to.be.true;",
+									"    pm.expect(response.assessments).to.be.an(\"array\");",
+									"    pm.expect(response.count).to.be.a(\"number\");",
+									"    if (response.assessments.length > 0) {",
+									"        pm.expect(response.assessments[0]).to.have.property(\"id\");",
+									"        pm.expect(response.assessments[0]).to.have.property(\"goal\");",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/assessment/get-assessment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"assessment",
+								"get-assessment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Error Test Cases",
+			"item": [
+				{
+					"name": "Register - Invalid Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response has validation error\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.equal(\"Invalid input data\");",
+									"    pm.expect(response.details).to.include(\"email must be a valid email\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"invalid\",\n    \"password\": \"Password123\",\n    \"name\": \"Test User\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register - Weak Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response has password validation error\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.equal(\"Invalid input data\");",
+									"    pm.expect(response.details).to.be.an(\"array\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testuser2@example.com\",\n    \"password\": \"weak\",\n    \"name\": \"Test User\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Invalid Credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response has invalid credentials error\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.equal(\"Invalid credentials\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"nonexistent@example.com\",\n    \"password\": \"Password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Assessment - Invalid Time Format",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response has time format validation error\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.equal(\"Invalid assessment data\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"goal\": [\"better sleep\"],\n    \"struggleWeek\": \"Difficulty falling asleep\",\n    \"bedInTime\": \"25:00\",\n    \"bedOutTime\": \"07:00\",\n    \"sleepDuration\": 8\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/assessment/submit-assessment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"assessment",
+								"submit-assessment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Assessment - Invalid Sleep Duration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response has sleep duration validation error\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.equal(\"Invalid assessment data\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"goal\": [\"better sleep\"],\n    \"struggleWeek\": \"Difficulty falling asleep\",\n    \"bedInTime\": \"23:00\",\n    \"bedOutTime\": \"07:00\",\n    \"sleepDuration\": 25\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/assessment/submit-assessment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"assessment",
+								"submit-assessment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Assessments - Unauthorized",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Clear all cookies to test unauthorized access",
+									"pm.cookies.clear();"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response has unauthorized error\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.message).to.equal(\"Unauthorized - No token provided\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/assessment/get-assessment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"assessment",
+								"get-assessment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Global pre-request script",
+					"console.log('Making request to: ' + pm.request.url);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Global test script",
+					"pm.test('Response time is acceptable', function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	]
+}
