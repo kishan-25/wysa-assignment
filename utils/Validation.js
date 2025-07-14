@@ -72,7 +72,7 @@ export const validateInput = (inputs) => {
                         errors.push(`${field} must be at most ${max}`);
                         isValid = false;
                     }
-                }
+                } 
                 break;
 
             case 'time':

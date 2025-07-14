@@ -18,9 +18,6 @@ app.use(cors({
     credentials: true
 }));
 
-// Trust proxy
-app.set('trust proxy', 1);
-
 // Parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
